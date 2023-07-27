@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script parses the Apache log access file and displays the visitor IP along with the HTTP status code using awk.
+
+log_file="apache-access.log"
+
+# Check if the log file exists
+if [ -e "$log_file" ]; then
+    # Use awk to extract the visitor IP and HTTP status code and display in a list format
+    awk '{print $1, $9}' "$log_file"
+else
+    echo "Log file $log_file does not exist."
+fi
