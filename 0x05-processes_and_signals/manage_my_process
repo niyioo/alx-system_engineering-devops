@@ -2,7 +2,11 @@
 # Bash script that writes "I am alive!" to /tmp/my_process every 2 seconds indefinitely
 
 # Infinite loop with a sleep of 2 seconds between iterations
+
+NAME=/tmp/my_process
+sudo touch $NAME
+
 while true; do
-    echo "I am alive!" >> /tmp/my_process
+    sudo bash -c "echo \"I am alive!\" >> $NAME"
     sleep 2
 done
