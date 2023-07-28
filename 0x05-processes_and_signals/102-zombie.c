@@ -31,26 +31,20 @@ int infinite_while(void)
  */
 int main(void)
 {
-	int i;
+	int i = 0;
 	pid_t zombie_pid;
 
-	for (i = 0; i < 5; i++)
+	while (i < 5)
 	{
 		zombie_pid = fork();
-
-		if (zombie_pid == -1)
-		{
-			perror("Fork error");
-			exit(1);
-		}
-		else if (zombie_pid == 0)
-		{
-			printf("Zombie process created, PID: %d\n", getpid());
-			exit(0);
-		}
+		if (!zombie_pid)
+			break;
+		printf("Zombie process created, PID: %i\n", (int)zombie_pid);
+		i++;
 	}
-
-	infinite_while();
-
+	if (zombie_pid != 0)
+	{
+		infinite_while();
+	}
 	return (0);
 }
