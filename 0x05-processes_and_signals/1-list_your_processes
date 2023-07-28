@@ -3,22 +3,22 @@
 
 # Function to print the header
 function print_header() {
-    printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n" "USER" "PID" "%CPU" "%MEM" "VSZ" "RSS" "TTY" "STAT" "START" "COMMAND"
+	printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n" "USER" "PID" "%CPU" "%MEM" "VSZ" "RSS" "TTY" "STAT" "START" "COMMAND"
 }
 
 # Function to print process details
 function print_process() {
-    local pid=$1
-    local user=$(ps -o user= -p "$pid")
-    ps -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,comm= -p "$pid" | \
-        awk -v user="$user" '{printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n", user, $2, $3, $4, $5, $6, $7, $8, $9, $10}'
-    # Show process hierarchy
-    ps --ppid "$pid" -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,comm= | awk -v user="$user" \
-        '{printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n", user, $2, $3, $4, $5, $6, $7, $8, $9, "  \\_ " $10}'
-}
+	local pid=$1
+	local user=$(ps -o user= -p "$pid")
+	ps -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,comm= -p "$pid" | \
+		awk -v user="$user" '{printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n", user, $2, $3, $4, $5, $6, $7, $8, $9, $10}'
+			# Show process hierarchy
+			ps --ppid "$pid" -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,comm= | awk -v user="$user" \
+				'{printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n", user, $2, $3, $4, $5, $6, $7, $8, $9, "  \\_ " $10}'
+			}
 
 # Main script starts here
 print_header
 ps -eo pid | tail -n +2 | while read -r pid; do
-    print_process "$pid"
+print_process "$pid"
 done

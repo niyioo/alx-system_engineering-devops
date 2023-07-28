@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Bash script to display lines containing the word "bash" and their process details
+
+# shellcheck disable=SC2009
+
+# Get the lines containing the word "bash" from the ps output
+process_lines=$(ps aux | grep bash | grep -v grep)
+
+# Print the header
+printf "%-10s %-5s %-4s %-4s %-6s %-5s %-8s %-5s %-5s %s\n" "USER" "PID" "%CPU" "%MEM" "VSZ" "RSS" "TTY" "STAT" "START" "COMMAND"
+
+# Print the lines containing "bash" and their process details
+echo "$process_lines"
