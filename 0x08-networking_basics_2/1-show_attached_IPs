@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Script: display_active_ipv4_ips.sh
+# Description: Display all active IPv4 addresses on the machine.
+ifconfig | awk -F "[: ]+" '/inet addr:/ { print $4 }'
