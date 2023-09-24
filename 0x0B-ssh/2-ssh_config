@@ -1,0 +1,4 @@
+# SSH client configuration for connecting to your-server-alias
+Host *
+	passwordAuthentification no
+	IdentityFile ~/.ssh/school
