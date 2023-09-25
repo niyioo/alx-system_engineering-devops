@@ -1,15 +1,12 @@
-#!/usr/bin/env bash
 # Puppet manifest to configure SSH client
 
-file { 'ect/ssh/ssh-config':
-	ensure => present,
-
-content =>"
-
-	#SSH client configuration
-	host*
-	IdentityFile ~/.ssh/school
-	PasswordAuthentication no
-	",
-
+file { '/etc/ssh/ssh_config':
+  ensure  => present,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  content => "# SSH client configuration\n\
+  Host *\n\
+    IdentityFile ~/.ssh/school\n\
+    PasswordAuthentication no\n",
 }
