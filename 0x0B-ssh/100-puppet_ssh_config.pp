@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Puppet manifest to configure SSH client
 
-file { 'ect/ssh/ssh-cofig':
+file { 'ect/ssh/ssh-config':
 	ensure => present,
 
 content =>"
