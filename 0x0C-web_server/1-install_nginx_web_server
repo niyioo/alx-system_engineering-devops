@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Update the package list to get the latest information about available packages
 apt-get update
 
