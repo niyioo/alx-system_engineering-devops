@@ -11,7 +11,7 @@ fi
 echo "
 server {
     listen 80;
-    server_name niyioo.tech;
+    server_name 54.236.30.173;
 
     location /redirect_me {
         return 301 https://linkedin.com/in/niyiolagbegi;
