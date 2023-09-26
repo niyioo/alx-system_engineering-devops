@@ -1,1 +1,1 @@
-Web Stack Debugging project
+Web Stack Debugging Project
