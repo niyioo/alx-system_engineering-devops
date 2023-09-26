@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 # Update the package list to get the latest information about available packages
 sudo apt update
 
