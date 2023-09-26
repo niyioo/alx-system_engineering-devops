@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
-
 # Update the package list to get the latest information about available packages
-apt-get update
-
 # Install Nginx
-apt-get install -y nginx
-
 # Create an index.html file with the "Hello World!" content in the default root directory
-echo "Hello World!" > /var/www/html/index.html
-
 # Restart Nginx without using systemctl
+apt-get update
+apt-get install -y nginx
+echo "Hello World!" > /var/www/html/index.html
 service nginx restart
