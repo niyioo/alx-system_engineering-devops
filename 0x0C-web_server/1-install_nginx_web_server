@@ -1,9 +1,20 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 # Update the package list to get the latest information about available packages
-# Install Nginx
+sudo apt-get update
+
+# Install Nginx if it's not already installed
+if ! dpkg -l | grep -q nginx; then
+    sudo apt-get install -y nginx
+fi
+
+# Allow incoming HTTP traffic through UFW
+sudo ufw allow 'Nginx HTTP'
+
 # Create an index.html file with the "Hello World!" content in the default root directory
-# Restart Nginx without using systemctl
-apt-get update
-apt-get install -y nginx
-echo "Hello World!" > /var/www/html/index.html
-service nginx restart
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Ensure Nginx is running and start it if it's not running
+if ! service nginx status >/dev/null; then
+    sudo service nginx start
+fi
