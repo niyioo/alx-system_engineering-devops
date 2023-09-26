@@ -1,42 +1,7 @@
 #!/usr/bin/env bash
 # Update the package list to get the latest information about available packages
-sudo apt update
-
-# Install Nginx if it's not already installed
-if ! dpkg -l | grep -q nginx; then
-    sudo apt install -y nginx
-fi
-
-# Create an Nginx server block configuration file for the redirection
-cat <<EOF | sudo tee /etc/nginx/sites-available/redirect_me
-server {
-    listen 80;
-    server_name 54.236.30.173;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    location / {
-        # Your regular website configuration here
-    }
-}
-EOF
-
-# Create a symbolic link to enable the server block
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Remove the default Nginx server block (if desired)
-# sudo rm /etc/nginx/sites-enabled/default
-
-# Test Nginx configuration
-sudo nginx -t
-
-# If the configuration test is successful, reload Nginx to apply changes
-if [ $? -eq 0 ]; then
-    sudo service nginx reload
-    echo "Nginx configuration reloaded successfully."
-else
-    echo "Nginx configuration test failed. No changes were applied."
-fi
-
+apt-get -y update
+apt-get -y install nginx
+echo "Hello World" > /var/www/html/index.nginx-debian.html
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/niyiolagbegi permanent;' /etc/nginx/sites-available/default
+service nginx start
