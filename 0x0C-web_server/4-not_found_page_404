@@ -1,48 +1,10 @@
 #!/usr/bin/env bash
 # Update the package list to get the latest information about available packages
-sudo apt update
-
-# Install Nginx if it's not already installed
-if ! dpkg -l | grep -q nginx; then
-    sudo apt install -y nginx
-fi
-
-# Create a custom 404 error page
-echo "
-server {
-    listen 80;
-    server_name 54.236.30.173;
-
-    error_page 404 /custom_404.html;
-
-    location = /custom_404.html {
-        root /var/www/html;
-        internal;
-    }
-
-    location / {
-        # Your regular website configuration here
-    }
-}
-" | sudo tee /etc/nginx/sites-available/custom_404
-
-# Create a custom 404 error page content
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
-
-# Create a symbolic link to enable the server block
-sudo ln -s /etc/nginx/sites-available/custom_404 /etc/nginx/sites-enabled/
-
-# Remove the default Nginx server block (if desired)
-# sudo rm /etc/nginx/sites-enabled/default
-
-# Test Nginx configuration
-sudo nginx -t
-
-# If the configuration test is successful, reload Nginx to apply changes
-if [ $? -eq 0 ]; then
-    sudo service nginx reload
-    echo "Nginx configuration reloaded successfully."
-else
-    echo "Nginx configuration test failed. No changes were applied."
-fi
-
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo 'Hello World' > /var/www/html/index.nginx-debian.html
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/niyiolagbegi permanent;' /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+sed -i '/server_name _;/a error_page 404 /custom_404.html;\nlocation = /custom_404.html {\nroot /usr/share/nginx/html;\ninternal;\n}' /etc/nginx/sites-available/default
+service nginx start
