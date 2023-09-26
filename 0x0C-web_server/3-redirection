@@ -8,7 +8,7 @@ if ! dpkg -l | grep -q nginx; then
 fi
 
 # Create an Nginx server block configuration file for the redirection
-echo "
+cat <<EOF | sudo tee /etc/nginx/sites-available/redirect_me
 server {
     listen 80;
     server_name 54.236.30.173;
@@ -21,7 +21,7 @@ server {
         # Your regular website configuration here
     }
 }
-" | sudo tee /etc/nginx/sites-available/redirect_me
+EOF
 
 # Create a symbolic link to enable the server block
 sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
