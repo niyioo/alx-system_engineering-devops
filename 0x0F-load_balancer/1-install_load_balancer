@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # This script installs and configures HAProxy on an Ubuntu server.
-sudo apt update
-sudo apt upgrade -y
-# Install HAProxy
-sudo apt install -y haproxy
-# Configure HAProxy for load balancing
-cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
+apt-get -y install software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get -y update
+apt-get -y install haproxy=1.8.\*
+cat <<EOF | tee /etc/haproxy/haproxy.cfg
 frontend http-in
     bind *:80
     mode http
@@ -23,7 +22,5 @@ backend web-servers
     timeout server 30s
     timeout connect 5s
 EOF
-# Ensure HAProxy can be managed via an init script
-echo "ENABLED=1" | sudo tee /etc/default/haproxy
-# Restart HAProxy to apply the configuration
-sudo systemctl restart haproxy
+echo "ENABLED=1" | tee /etc/default/haproxy
+service haproxy start
