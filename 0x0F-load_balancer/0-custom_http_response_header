@@ -1,9 +1,28 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu server with a custom HTTP header response
+# Script to install Nginx, configure custom headers, and start the Nginx service
 apt-get -y update
 apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-echo 'Holberton School' > /var/www/html/index.nginx-debian.html
-sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
-sed -i '/listen 80 default_server;/a add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
-service nginx start
+
+# Create a custom index file
+echo 'Hello World' > /var/www/html/index.nginx-debian.html
+
+# Create a custom Nginx configuration file for the custom header
+cat <<EOL > /etc/nginx/conf.d/custom-headers.conf
+server {
+    listen 80 default_server;
+
+    # Other server configuration settings
+
+    location / {
+        # Other location settings
+        add_header X-Served-By \$host;
+        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+    }
+}
+EOL
+
+# Test Nginx configuration for syntax errors
+nginx -t
+
+# Reload Nginx to apply the configuration
+service nginx reload
