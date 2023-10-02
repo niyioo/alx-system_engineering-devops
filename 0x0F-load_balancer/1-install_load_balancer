@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # This script installs and configures HAProxy on an Ubuntu server.
-# Update system packages
 sudo apt update
 sudo apt upgrade -y
 
@@ -12,12 +11,19 @@ cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
 frontend http-in
     bind *:80
     mode http
+    timeout client 30s
+    timeout connect 5s
+    timeout server 30s
     default_backend web-servers
 
 backend web-servers
+    mode http
     balance roundrobin
-    server web-01 [STUDENT_ID]-web-01:80 check
-    server web-02 [STUDENT_ID]-web-02:80 check
+    server web-01 348963-web-01:80 check
+    server web-02 348963-web-02:80 check
+    timeout client 30s
+    timeout server 30s
+    timeout connect 5s
 EOF
 
 # Ensure HAProxy can be managed via an init script
