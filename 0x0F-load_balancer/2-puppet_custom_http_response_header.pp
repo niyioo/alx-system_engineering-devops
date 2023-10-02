@@ -1,20 +1,8 @@
-# Install Nginx package
-package { 'nginx':
-  ensure => installed,
+# Task #2: Configure Nginx with custom HTTP response header
+exec { 'command':
+  command  => 'apt-get -y update;
+  apt-get -y install nginx;
+  sudo sed -i "/listen 80 default_server;/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default;
+  service nginx restart',
+  provider => shell,
 }
-
-# Define a custom Nginx configuration file to add the custom header
-file { '/etc/nginx/conf.d/custom-header.conf':
-  ensure  => present,
-  content => 'add_header X-Served-By $hostname;',
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
-# Ensure the Nginx service is running and enabled
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => File['/etc/nginx/conf.d/custom-header.conf'],
-}
-
