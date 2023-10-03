@@ -3,7 +3,7 @@
 apt-get -y install software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-1.8
 apt-get -y update
-apt-get -y install haproxy=1.8.*
+apt-get -y install haproxy=1.8.\*
 sed -i '/^frontend http-in$/,$d' /etc/haproxy/haproxy.cfg
 cat <<EOF | sed -i -e '/^frontend http-in$/ r /dev/stdin' /etc/haproxy/haproxy.cfg
     frontend http-in
