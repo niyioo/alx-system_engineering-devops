@@ -1,26 +1,8 @@
 #!/usr/bin/env bash
-# This script installre
+# This script installs and configures HAProxy on an Ubuntu server
 apt-get -y install software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-1.8
 apt-get -y update
 apt-get -y install haproxy=1.8.\*
-sed -i '/^frontend http-in$/,$d' /etc/haproxy/haproxy.cfg
-cat <<EOF | sed -i -e '/^frontend http-in$/ r /dev/stdin' /etc/haproxy/haproxy.cfg
-    frontend http-in
-        bind *:80
-        mode http
-        timeout client 30s
-        timeout connect 5s
-        timeout server 30s
-        default_backend web-servers
-
-    backend web-servers
-        mode http
-        balance roundrobin
-        server web-01 348963-web-01:80 check
-        server web-02 348963-web-02:80 check
-        timeout client 30s
-        timeout server 30s
-        timeout connect 5s
-EOF
+echo -e "\nfrontend http\n\tbind *:80\n\tmode http\n\tdefault_backend web-backend\n\nbackend web-backend\n\tbalance roundrobin\n\tserver 348963-web-01 54.236.30.173:80 check\n\tserver 348963-web-02 100.26.56.25:80 check" >> /etc/haproxy/haproxy.cfg
 service haproxy restart
