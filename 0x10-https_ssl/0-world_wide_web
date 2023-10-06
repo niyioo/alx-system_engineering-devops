@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# This script audits subdomains for a given domain and displays their DNS information.
+
+domain_information () {
+	line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+	echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+}
+
+# Check for the presence of required arguments
+if [ "$#" -lt 1 ]; then
+	echo "Usage: $0 <domain> [subdomain]"
+	exit 1
+fi
+
+# Define the domain and its subdomains
+domain="$1"
+subdomains=("www" "lb-01" "web-01" "web-02")
+
+# If a specific subdomain is provided, only audit that subdomain
+if [ "$#" -eq 2 ]; then
+	subdomain="$2"
+	subdomains=("$subdomain")
+fi
+
+# Loop through the subdomains and query their DNS records
+for subdomain in "${subdomains[@]}"; do
+	domain_information "$domain" "$subdomain"
+done
+
