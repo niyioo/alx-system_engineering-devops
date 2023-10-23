@@ -6,24 +6,24 @@ import requests
 import sys
 
 
-if __name__ == '__main__':
-    url = 'https://jsonplaceholder.typicode.com/'
-    user_id = sys.argv[1]
+if __name__ == "__main__":
+    base_url = 'https://jsonplaceholder.typicode.com/'
 
-    user_url = f'{url}users/{user_id}'
+    employee_id = sys.argv[1]
+
+    user_url = '{}users/{}'.format(base_url, employee_id)
     user_response = requests.get(user_url)
-    user_data = user_response.json()
-    user_name = user_data.get('name')
+    u_data = user_response.json()
 
-    todo_url = f'{url}todos?userId={user_id}'
+    print("Employee {} is done with tasks".format(u_data.get('name')), end="")
+
+    todo_url = '{}todos?userId={}'.format(base_url, employee_id)
     todo_response = requests.get(todo_url)
-    todos = todo_response.json()
+    tasks = todo_response.json()
 
-    num_todos = len(todos)
-    num_completed = len([todo for todo in todos if todo.get("completed")])
+    completed_tasks = [task for task in tasks if task.get('completed') is True]
 
-    print(f"Employee {user_name} is done with {num_completed}/{num_todos} "
-          f"tasks:")
-    for todo in todos:
-        if todo.get("completed"):
-            print(f"\t{todo.get('title')}")
+    print("({}/{}):".format(len(completed_tasks), len(tasks)))
+
+    for task in completed_tasks:
+        print("\t {}".format(task.get("title")))
