@@ -48,7 +48,7 @@ def get_employee_todo_progress_to_csv(employee_id):
         print(f"Data has been exported to {csv_file_name}")
 
     except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
+        print(f"API request error: {e}")
         sys.exit(1)
 
 
