@@ -13,27 +13,27 @@ if __name__ == "__main__":
 
     employee_id = sys.argv[1]
 
-    user_url = f'{base_url}users/{employee_id}'
+    user_url = '{}users/{}'.format(base_url, employee_id)
     user_response = requests.get(user_url)
-    user_data = user_response.json()
-    username = user_data.get('username')
+    u_data = user_response.json()
 
-    print(f"Employee {username} is done with tasks", end="")
+    print("Employee {} is done with tasks".format(u_data.get('name')), end="")
 
-    todo_url = f'{base_url}todos?userId={employee_id}'
+    todo_url = '{}todos?userId={}'.format(base_url, employee_id)
     todo_response = requests.get(todo_url)
     tasks = todo_response.json()
 
-    completed_tasks = [{"task": task["title"], "completed": task["completed"], "username": username} for task in tasks if task["completed"]]
+    task_list = []
+    for task in tasks:
+        task_info = {
+            "task": task.get("title"),
+            "completed": task.get("completed"),
+            "username": u_data.get("username")
+        }
+        task_list.append(task_info)
 
-    user_json = {employee_id: completed_tasks}
-
-    json_file_name = f"{employee_id}.json"
+    task_dict = {str(employee_id): task_list}
+    json_file_name = '{}.json'.format(employee_id)
 
     with open(json_file_name, 'w') as json_file:
-        json.dump(user_json, json_file)
-
-    print(f"({len(completed_tasks)}/{len(tasks)}):")
-
-    for task in completed_tasks:
-        print(f"\t {task['task']}")
+        json.dump(task_dict, json_file)
