@@ -6,7 +6,6 @@ import json
 import requests
 import sys
 
-
 if __name__ == "__main__":
     base_url = 'https://jsonplaceholder.typicode.com/'
 
@@ -18,8 +17,6 @@ if __name__ == "__main__":
         user_response = requests.get(user_url)
         user_data = user_response.json()
         username = user_data.get('username')
-
-        print("Processing employee {}...".format(username))
 
         todo_url = '{}todos?userId={}'.format(base_url, employee_id)
         todo_response = requests.get(todo_url)
@@ -34,8 +31,10 @@ if __name__ == "__main__":
             }
             task_list.append(task_info)
 
+        # Add the task list for the current employee to the all_tasks dictionary
         all_tasks[str(employee_id)] = task_list
 
     # Export the all_tasks dictionary in JSON format
     with open('todo_all_employees.json', 'w') as json_file:
         json.dump(all_tasks, json_file)
+
