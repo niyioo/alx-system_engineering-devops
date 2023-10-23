@@ -31,10 +31,8 @@ if __name__ == "__main__":
             }
             task_list.append(task_info)
 
-        # Add the task list for the current employee to the all_tasks dictionary
         all_tasks[str(employee_id)] = task_list
 
     # Export the all_tasks dictionary in JSON format
     with open('todo_all_employees.json', 'w') as json_file:
         json.dump(all_tasks, json_file)
-
