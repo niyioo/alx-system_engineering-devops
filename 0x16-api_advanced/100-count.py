@@ -54,9 +54,9 @@ def count_words(subreddit, word_list, after=None, count_dict=None):
                     not word.endswith('.') and \
                     not word.endswith('!') and \
                     not word.endswith('_'):
-                    # Count the word (case-insensitive) in the count_dict
-                    count_dict[word.lower()] = count_dict.get(word.lower(), 0)
-                    count_dict[word.lower()] += 1
+                        # Count the word (case-insensitive) in the count_dict
+                        count_dict[word.lower()] = count_dict.get(word.lower(), 0)
+                        count_dict[word.lower()] += 1
 
         # Check if there are more pages (pagination)
         after = data['data']['after']
