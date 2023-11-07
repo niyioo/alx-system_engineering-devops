@@ -50,10 +50,12 @@ def count_words(subreddit, word_list, after=None, count_dict=None):
             words = title.split()  # Split title into words
             for word in words:
                 # Check if the word is in the word_list and not a variation
-                if word in word_list and \
-                    not word.endswith('.') and \
-                    not word.endswith('!') and \
-                    not word.endswith('_'):
+                if (
+                    word in word_list and
+                    not word.endswith('.') and
+                    not word.endswith('!') and
+                    not word.endswith('_')
+                    ):
                     # Count the word (case-insensitive) in the count_dict
                     count_dict[word.lower()] = count_dict.get(word.lower(), 0)
                     count_dict[word.lower()] += 1
