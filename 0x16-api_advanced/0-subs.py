@@ -6,6 +6,7 @@ of subscribers for a given subreddit.
 
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
     Retrieve the number of subscribers for a given subreddit.
@@ -35,6 +36,7 @@ def number_of_subscribers(subreddit):
     else:
         # Invalid subreddit or other error, return 0
         return 0
+
 
 if __name__ == '__main__':
     import sys
