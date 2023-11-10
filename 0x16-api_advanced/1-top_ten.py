@@ -28,7 +28,7 @@ def top_ten(subreddit):
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
-        # Parse the JSON response and 
+        # Parse the JSON response and
         # extract the titles of the first 10 hot posts
         data = response.json()
         posts = data['data']['children']
